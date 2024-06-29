@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <h2>Create Folder</h2>
+   <form method="post" 
+       enctype="multipart/form-data"
+        {% comment %} action="
+        {% if folder %}  
+            {% url 'folder_create' folder.id %} 
+        {% else %}
+        {% url 'folder_create '%}
+        {% endif %}"> {% endcomment %}
+
+        {% csrf_token %}
+        <input type="text" id="name" name="name" placeholder="Folder name" required />
+        <button type="submit">Create<button>
+    </form>
+
+    {% if errors.folder_error %}
+       <p>{{ errors.folder_error }}</p>
+    {% endif %}
+
+
+    <h2>Upload File</h2>
+    <form 
+        method="post"
+        enctype="multipart/form-data"
+        {% comment %} action=
+        "{% if folder %}
+            {% url 'upload_file' file.id %}
+        {% else %}
+            {% url 'upload_file' %}
+        {% endif %}"> {% endcomment %}
+        {% csrf_token %}
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+    </form>
+    {% if errors.file_error %}
+       <p>{{ errors.file_error }}</p>
+    {% endif %}
+    
+    <h2> User Folders </h2>
+    <ul>
+        {% for life in files %}
+           <li>
+            {{ file.name}}
+           </li>
+        {% empty %}
+           <li> No files found. </li>
+        {% endfor %}
+    </ul>
+{% endblock%}

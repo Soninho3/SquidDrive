@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SquidDrive</title>
+    </head>
+    <body>
+        <header>
+            {% if folder %}
+              <h1>{{ folder.name }}</h1>
+            {% else %} 
+               <h1> SquidDrive </h1> 
+            {% endif %}
+            {% if errors.global_error %}
+                <p>{{ errors.global_error }}</p>
+            {% endif %}
+            {% if user.is_authenticated %}
+               <nav>
+                   <ul>
+                       <li>
+                           <a href="{% url 'home' %}">Home</a>
+                       </li>
+                       <li>
+                           <a href="{% url 'logout' %}">Logout</a>
+                       </li>
+                       {% if folder %}
+                          {% if parent_folder %}
+                            <li>
+                                <a href="{% url 'folder_detail' parent_folder.id %}">Back</a>
+                            </li>
+                          {% else %}
+                            <li>
+                                <a href="{% url 'home' %}">Back<a>
+                            </li>
+                          {% endif %}
+                        {% endif %}
+                   </ul>
+               </nav>
+            {% endif %}
+        </header>
+        {% block content %}
+        
+        {% endblock %}
+    </body>
+</html>
